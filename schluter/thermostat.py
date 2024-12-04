@@ -1,4 +1,8 @@
 class Thermostat():
+    REGULATION_MODE_SCHEDULE = 1
+    REGULATION_MODE_TILL_NEXT_SCHEDULE = 2
+    REGULATION_MODE_PERMANENT = 3
+
     def __init__(self, data):
         self._serial_number = data["SerialNumber"]
         self._name = data["Room"]
@@ -14,6 +18,8 @@ class Thermostat():
         self._kwh_charge = data["KwhCharge"]
         self._load_measured_watt = data["LoadMeasuredWatt"]
         self._sw_version = data["SWVersion"]
+        self._regulation_mode = data["RegulationMode"]
+        self._vacation_enabled = data["VacationEnabled"]
     
     @property
     def serial_number(self):
@@ -70,3 +76,11 @@ class Thermostat():
     @property
     def sw_version(self):
         return self._sw_version
+
+    @property
+    def regulation_mode(self):
+        return self._regulation_mode
+    
+    @property
+    def vacation_enabled(self):
+        return self._vacation_enabled

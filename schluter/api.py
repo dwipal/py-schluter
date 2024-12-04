@@ -46,9 +46,14 @@ class Api:
     def set_temperature(self, sessionId, serialNumber, temperature):
         modifiedTemp = int(temperature * 100)
         params = { 'sessionId': sessionId, 'serialnumber': serialNumber }
-        json = { 'ManualTemperature': modifiedTemp, "RegulationMode": 3, "VacationEnabled": False}
+        json = { 'ManualTemperature': modifiedTemp, "RegulationMode": Thermostat.REGULATION_MODE_PERMANENT, "VacationEnabled": False}
+        result = self._call_api("post", API_SET_TEMPERATURE_URL, params = params, json = json).json()    
+        return result["Success"]
+    
+    def set_regulation_mode(self, sessionId, serialNumber, regulationMode=Thermostat.REGULATION_MODE_SCHEDULE):
+        params = { 'sessionId': sessionId, 'serialnumber': serialNumber }
+        json = {"RegulationMode": regulationMode, "VacationEnabled": False}
         result = self._call_api("post", API_SET_TEMPERATURE_URL, params = params, json = json).json()
-        
         return result["Success"]
 
     def _call_api(self, method, url, params, **kwargs):
